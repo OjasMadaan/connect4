@@ -291,7 +291,7 @@ int getMove(int board[Board_rows][Board_cols]){
         scanf("%d",&col);
     }
 
-    if (columnFull(board,col)==1){
+    while (columnFull(board,col)){
         printf("Column is full, please select a valid column: ");
         scanf("%d",&col);
     }
