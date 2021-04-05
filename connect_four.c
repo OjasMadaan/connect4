@@ -304,7 +304,7 @@ char PlayAgain(void)
 {
 	char move;
     printf("\n======================================\n");
-	printf("Would you like to play again? (Y or N): ");
+	printf("Would you like to play again? ('Y' or 'N'): ");
     scanf("%c", &move);
 	// Ignore non-capital letter inputs
 	while ((move != 'Y') && (move != 'N')) {
