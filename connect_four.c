@@ -10,11 +10,12 @@ void CreateBoard(int board[Board_rows][Board_cols]);
 void PrintGameBoard(int board[Board_rows][Board_cols]);
 void MakeMove(int board[Board_rows][Board_cols], int col, char player);
 int GameOver(int board[Board_rows][Board_cols], char player);
-int getMove(void);
+int getMove(int board[Board_rows][Board_cols]);
 int Connect4Check(int board[Board_rows][Board_cols], int row,int col,int piece);
 int boardFull(int board[Board_rows][Board_cols]);
 char PlayAgain(void);
 void ClearScreen(void);
+int columnFull(int board[Board_rows][Board_cols], int col);
 
 int main(void){
     int board[Board_rows][Board_cols];
@@ -41,7 +42,7 @@ int main(void){
        printf("==============\n");    
        PrintGameBoard(board); 
        printf("Player 1 - ");
-       int move1 = getMove();
+       int move1 = getMove(board);
        MakeMove(board,move1,player1);
        gameOver1 = GameOver(board,player1);
        board_full = boardFull(board);
@@ -76,7 +77,7 @@ int main(void){
        printf("==============\n"); 
        PrintGameBoard(board);
        printf("Player 2 - ");
-       int move2 = getMove();
+       int move2 = getMove(board);
        MakeMove(board,move2,player2);
        gameOver2 = GameOver(board,player2);
        board_full = boardFull(board);
@@ -194,7 +195,6 @@ void MakeMove(int board[Board_rows][Board_cols], int col, char player){
                     return;
                 }
             }
-
         }
     }
 }
@@ -280,7 +280,7 @@ int Connect4Check(int board[Board_rows][Board_cols], int row,int col,int piece){
             return 0;
      }
     
-int getMove(void){
+int getMove(int board[Board_rows][Board_cols]){
     int col;
     
     printf("Enter column to add piece: ");
@@ -288,6 +288,11 @@ int getMove(void){
    
     while (col<1 || col>Board_cols-2){
         printf("Please enter valid column (between %d and %d): ",1,Board_cols-2);
+        scanf("%d",&col);
+    }
+
+    if (columnFull(board,col)==1){
+        printf("Column is full, please select a valid column: ");
         scanf("%d",&col);
     }
 
@@ -307,8 +312,28 @@ char PlayAgain(void)
 	}
 	return move;
 }
+
 void ClearScreen(void){
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+}
+
+
+int columnFull(int board[Board_rows][Board_cols], int col){
+    int numberOfFreeRows = 0;
+    int i;
+
+    for (i=0;i<Board_rows-1;i++){
+        if (board[i][col]==SPACE){
+            numberOfFreeRows++; // found a free row
+        }
+    }
+
+    if (numberOfFreeRows>0){
+        return 0; // column is not full
+    } else {
+        return 1; // column is full
+    }
+
 }
     
 
